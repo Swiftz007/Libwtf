@@ -222,7 +222,7 @@ TweenObject(v6, 0.25, {
 wait(0.25);
 v5:Destroy();
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/hdanhhub/hdanhhub/refs/heads/main/Fix-Lag.lua.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Swiftz007/Project-Swiftz/refs/heads/main/kuy.lua"))()
 else
 shared.LoaderTitle = "พ่อมึงตาย";
 shared.LoaderKeyFrames = {
