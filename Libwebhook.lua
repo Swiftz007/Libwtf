@@ -1,4 +1,4 @@
---#3
+--#5
 local HttpService = game:GetService("HttpService")
 local player = game:GetService("Players").LocalPlayer
 local webhookURL = "https://discord.com/api/webhooks/1372904210370265259/p-Z-klz9ywB-WpHuvrPCjPRt23me00hA_cC2Jh1XHLtNUvLHFG0c4khAbWe4jGO04s-k"
@@ -11,12 +11,12 @@ local data = {
         ["thumbnail"] = { ["url"] = imageUrl },
         ["fields"] = {
             {
-                ["name"] = "Player Info",
+                ["name"] = "----------------------------",
                 ["value"] = string.format("**Username:** @%s\n**Display Name:** %s", player.Name, player.DisplayName),
                 ["inline"] = false
             },
             {
-                ["name"] = "Game Info",
+                ["name"] = "----------------------------",
                 ["value"] = string.format("**Place ID:** %d\n**Link:** [Click](https://www.roblox.com/games/%d)", game.PlaceId, game.PlaceId),
                 ["inline"] = false
             }
