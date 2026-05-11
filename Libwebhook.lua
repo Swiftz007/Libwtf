@@ -1,4 +1,4 @@
---#2
+--#3
 local HttpService = game:GetService("HttpService")
 local player = game:GetService("Players").LocalPlayer
 local webhookURL = "https://discord.com/api/webhooks/1372904210370265259/p-Z-klz9ywB-WpHuvrPCjPRt23me00hA_cC2Jh1XHLtNUvLHFG0c4khAbWe4jGO04s-k"
@@ -7,7 +7,7 @@ local imageUrl = "https://cdn.discordapp.com/attachments/1450978230742814841/150
 local data = {
     ["embeds"] = {{
         ["title"] = "Reaper Hub Notify",
-        ["color"] = 0,
+        ["color"] = 0xFFFFFF,
         ["thumbnail"] = { ["url"] = imageUrl },
         ["fields"] = {
             {
