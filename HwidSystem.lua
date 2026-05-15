@@ -1,7 +1,6 @@
 local player = game:GetService("Players").LocalPlayer
 local whitelistedHWIDs = {
-    --["683c6cad96983bb60cb6b29086c0381c811c443aae5ab72f3f2abd91dae18a2e"] = true,
-    ["xxx"] = true,
+    ["683c6cad96983bb60cb6b29086c0381c811c443aae5ab72f3f2abd91dae18a2a"] = true,
 }
 
 -- ดึงค่า HWID ปัจจุบัน
