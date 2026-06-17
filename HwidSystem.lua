@@ -2,6 +2,7 @@ local player = game:GetService("Players").LocalPlayer
 local whitelistedHWIDs = {
     ["683c6cad96983bb60cb6b29086c0381c811c443aae5ab72f3f2abd91dae18a2e"] = true, -- Admin Hwid
     ["77fdce4ece1ef4c77770464485958b9f6b44a36fb4fff3d54b12a30e59e51177"] = true, -- พวกกาก
+    ["8ce414c1bf6e7805c6e30ff3358ce60cee066678b90990af08d6631a17f15588"] = true, -- Xiaomi Pad 7
     ["none"] = false
 }
 
