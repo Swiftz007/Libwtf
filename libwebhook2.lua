@@ -3,28 +3,32 @@ local player = game:GetService("Players").LocalPlayer
 local webhookURL = "https://discord.com/api/webhooks/1372904210370265259/p-Z-klz9ywB-WpHuvrPCjPRt23me00hA_cC2Jh1XHLtNUvLHFG0c4khAbWe4jGO04s-k"
 local imageUrl = "https://cdn.discordapp.com/attachments/1450978230742814841/1503442500512256201/IMG_0745.png?ex=6a035d70&is=6a020bf0&hm=06687d0b8e8c6956f5dd0af3adca4901409ca9d95ef1f8726a208acf7d2685ab&"
 
--- ข้อมูลเพิ่มเติมที่ควรมี
+-- ข้อมูลทางเทคนิค
 local hwid = gethwid and gethwid() or "Not Supported"
-local executor = identifyexecutor and identifyexecutor() or "Unknown"
-local accountAge = player.AccountAge
 local jobId = game.JobId
+local executor = identifyexecutor and identifyexecutor() or "Unknown"
 
 local data = {
     ["embeds"] = {{
-        ["title"] = "Reaper Hub Notification",
+        ["title"] = "Reaper Hub Notify",
         ["color"] = 0xFFFFFF,
         ["thumbnail"] = { ["url"] = imageUrl },
         ["fields"] = {
             {
                 ["name"] = "User Information",
-                ["value"] = string.format("Username: @%s\nDisplay Name: %s\nAccount Age: %d days\nHWID: %s", 
-                    player.Name, player.DisplayName, accountAge, hwid),
+                ["value"] = string.format("**Username:** @%s\n**Display Name:** %s\n**HWID:**\n```%s```", 
+                    player.Name, player.DisplayName, hwid),
                 ["inline"] = false
             },
             {
-                ["name"] = "Game & Technical",
-                ["value"] = string.format("Executor: %s\nPlace ID: %d\nJob ID: %s\nLink: [Click to Play](https://www.roblox.com/games/%d)", 
-                    executor, game.PlaceId, jobId, game.PlaceId),
+                ["name"] = "Game Details",
+                ["value"] = string.format("**Place ID:**\n```%d```\n**Job ID:**\n```%s```\n**Executor:**\n```%s```", 
+                    game.PlaceId, jobId, executor),
+                ["inline"] = false
+            },
+            {
+                ["name"] = "Direct Link",
+                ["value"] = string.format("[Click to Join](https://www.roblox.com/games/%d)", game.PlaceId),
                 ["inline"] = false
             }
         },
