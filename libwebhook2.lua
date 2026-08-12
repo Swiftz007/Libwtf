@@ -1,4 +1,4 @@
---2
+--3
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
 local player = game:GetService("Players").LocalPlayer
@@ -25,7 +25,6 @@ end)
 local data = {
     ["embeds"] = {{
         ["title"] = "Reaper Hub Notify",
-        ["description"] = "A new user has executed Reaper Hub.",
         ["color"] = 0xFFFFFF,
 
         ["thumbnail"] = {
