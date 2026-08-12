@@ -1,3 +1,4 @@
+--2
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
 local player = game:GetService("Players").LocalPlayer
@@ -5,15 +6,15 @@ local player = game:GetService("Players").LocalPlayer
 local webhookURL = "https://discord.com/api/webhooks/1372904210370265259/p-Z-klz9ywB-WpHuvrPCjPRt23me00hA_cC2Jh1XHLtNUvLHFG0c4khAbWe4jGO04s-k"
 local imageUrl = "https://cdn.discordapp.com/attachments/1450978230742814841/1503442500512256201/IMG_0745.png"
 
--- ข้อมูลทางเทคนิค
+-- Technical Information
 local hwid = gethwid and gethwid() or "Not Supported"
 local jobId = game.JobId
 local executor = identifyexecutor and identifyexecutor() or "Unknown"
 
--- ตรวจสอบภาษา
+-- Language
 local language = (_G.Script_Language == "Thai") and "Thai" or "Eng"
 
--- ดึงชื่อเกม
+-- Game Name
 local gameName = "Unknown"
 
 pcall(function()
@@ -24,6 +25,7 @@ end)
 local data = {
     ["embeds"] = {{
         ["title"] = "Reaper Hub Notify",
+        ["description"] = "A new user has executed Reaper Hub.",
         ["color"] = 0xFFFFFF,
 
         ["thumbnail"] = {
@@ -31,34 +33,47 @@ local data = {
         },
 
         ["fields"] = {
+
+            -- User Information
             {
-                ["name"] = "User Information",
+                ["name"] = "👤 User Information",
                 ["value"] = string.format(
-                    "**Username:** @%s\n**Display Name:** %s\n**HWID:**\n`%s`\n**Language:** %s",
+                    "**Username:** `%s`\n**Display Name:** `%s`\n**Language:** `%s`",
                     player.Name,
                     player.DisplayName,
-                    hwid,
                     language
                 ),
                 ["inline"] = false
             },
 
+            -- Game Information
             {
-                ["name"] = "Game Details",
+                ["name"] = "🎮 Game Information",
                 ["value"] = string.format(
-                    "**Game Name:**\n`%s`\n**Place ID:**\n`%d`\n**Job ID:**\n`%s`\n**Executor:**\n`%s`",
+                    "**Game:** `%s`\n**Place ID:** `%d`\n**Executor:** `%s`",
                     gameName,
                     game.PlaceId,
-                    jobId,
                     executor
                 ),
                 ["inline"] = false
             },
 
+            -- Session Information
             {
-                ["name"] = "Direct Link",
+                ["name"] = "🔧 Session Information",
                 ["value"] = string.format(
-                    "[Click to Join](https://www.roblox.com/games/%d)",
+                    "**Job ID:**\n`%s`\n\n**HWID:**\n`%s`",
+                    jobId,
+                    hwid
+                ),
+                ["inline"] = false
+            },
+
+            -- Join Link
+            {
+                ["name"] = "🔗 Join Game",
+                ["value"] = string.format(
+                    "[**Click to Join Game**](https://www.roblox.com/games/%d)",
                     game.PlaceId
                 ),
                 ["inline"] = false
@@ -74,7 +89,11 @@ local data = {
     }}
 }
 
-local request = syn and syn.request or http_request or request or (http and http.request)
+-- Request
+local request = syn and syn.request
+    or http_request
+    or request
+    or (http and http.request)
 
 if request then
     request({
