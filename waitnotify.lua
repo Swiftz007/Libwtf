@@ -1,4 +1,4 @@
---2
+--3
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
 
@@ -18,9 +18,9 @@ do
 
     local ReaperIcon = "rbxassetid://131279093559313"
 
-    local FIRST_POSITION = UDim2.new(0.5, 0, 0, 38)
-    local SECOND_POSITION = UDim2.new(0.5, 0, 0, 18)
-    local FIRST_MOVED_POSITION = UDim2.new(0.5, 0, 0, -28)
+    local FIRST_POSITION = UDim2.new(0.5, 0, 0, 100)
+    local SECOND_POSITION = UDim2.new(0.5, 0, 0, 100)
+    local FIRST_MOVED_POSITION = UDim2.new(0.5, 0, 0, 32)
 
     local activeNotifications = {}
 
