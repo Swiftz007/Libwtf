@@ -1,4 +1,4 @@
---3
+--4
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
 local player = game:GetService("Players").LocalPlayer
@@ -95,6 +95,9 @@ local request = syn and syn.request
     or (http and http.request)
 
 if request then
+   if not getgenv().REAPER_WEBHOOK_SENT then
+    getgenv().REAPER_WEBHOOK_SENT = true
+
     request({
         Url = webhookURL,
         Method = "POST",
@@ -103,6 +106,7 @@ if request then
         },
         Body = HttpService:JSONEncode(data)
     })
+end
 else
     warn("Executor not supported")
 end
