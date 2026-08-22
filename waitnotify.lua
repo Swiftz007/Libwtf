@@ -1,3 +1,4 @@
+--2
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
 
@@ -17,18 +18,27 @@ do
 
     local ReaperIcon = "rbxassetid://131279093559313"
 
-    local function CreateNotify(message, duration, delayTime)
+    local FIRST_POSITION = UDim2.new(0.5, 0, 0, 38)
+    local SECOND_POSITION = UDim2.new(0.5, 0, 0, 18)
+    local FIRST_MOVED_POSITION = UDim2.new(0.5, 0, 0, -28)
+
+    local activeNotifications = {}
+
+    local function CreateNotify(message, duration, delayTime, notifyType)
         task.delay(delayTime or 0, function()
             if not notifyGui or not notifyGui.Parent then
                 return
             end
 
             local frame = Instance.new("Frame")
-            frame.Size = UDim2.new(0, 0, 0, 60)
-            frame.Position = UDim2.new(0.5, 0, 0, 20)
+            frame.Size = UDim2.new(0, 340, 0, 60)
+            frame.Position = FIRST_POSITION
             frame.AnchorPoint = Vector2.new(0.5, 0)
             frame.BackgroundColor3 = Color3.fromRGB(10, 10, 12)
-            frame.BackgroundTransparency = 0.15
+
+            -- เห็นเกมด้านหลังได้ แต่ไม่ใสจนเกินไป
+            frame.BackgroundTransparency = 0.28
+
             frame.BorderSizePixel = 0
             frame.ClipsDescendants = true
             frame.ZIndex = 1000
@@ -41,16 +51,16 @@ do
             local stroke = Instance.new("UIStroke")
             stroke.Color = Color3.fromRGB(239, 68, 68)
             stroke.Thickness = 1
-            stroke.Transparency = 0.1
+            stroke.Transparency = 0.2
             stroke.Parent = frame
 
-            -- Reaper icon background
+            -- Icon glow
             local iconGlow = Instance.new("Frame")
             iconGlow.Size = UDim2.fromOffset(42, 42)
             iconGlow.Position = UDim2.new(0, 8, 0.5, 0)
             iconGlow.AnchorPoint = Vector2.new(0, 0.5)
             iconGlow.BackgroundColor3 = Color3.fromRGB(239, 68, 68)
-            iconGlow.BackgroundTransparency = 0.88
+            iconGlow.BackgroundTransparency = 0.84
             iconGlow.BorderSizePixel = 0
             iconGlow.ZIndex = 1001
             iconGlow.Parent = frame
@@ -59,7 +69,7 @@ do
             glowCorner.CornerRadius = UDim.new(1, 0)
             glowCorner.Parent = iconGlow
 
-            -- Reaper icon
+            -- Reaper Icon
             local icon = Instance.new("ImageLabel")
             icon.Size = UDim2.fromOffset(36, 36)
             icon.Position = UDim2.new(0, 11, 0.5, 0)
@@ -85,12 +95,16 @@ do
             text.ZIndex = 1002
             text.Parent = frame
 
-            -- Open animation
+            table.insert(activeNotifications, frame)
+
+            -- เปิดเข้ามา
+            frame.Size = UDim2.new(0, 300, 0, 56)
+
             TweenService:Create(
                 frame,
                 TweenInfo.new(
-                    0.4,
-                    Enum.EasingStyle.Back,
+                    0.35,
+                    Enum.EasingStyle.Quint,
                     Enum.EasingDirection.Out
                 ),
                 {
@@ -98,7 +112,48 @@ do
                 }
             ):Play()
 
-            -- Close animation
+            -- ถ้าเป็นแจ้งเตือนที่สอง
+            if notifyType == 2 then
+
+                local first = activeNotifications[1]
+
+                if first and first.Parent then
+                    -- ดันอันแรกขึ้น
+                    TweenService:Create(
+                        first,
+                        TweenInfo.new(
+                            0.45,
+                            Enum.EasingStyle.Quint,
+                            Enum.EasingDirection.Out
+                        ),
+                        {
+                            Position = FIRST_MOVED_POSITION
+                        }
+                    ):Play()
+                end
+
+                -- อันสองมาแทนตำแหน่งเดิม
+                frame.Position = UDim2.new(
+                    0.5,
+                    0,
+                    0,
+                    55
+                )
+
+                TweenService:Create(
+                    frame,
+                    TweenInfo.new(
+                        0.45,
+                        Enum.EasingStyle.Quint,
+                        Enum.EasingDirection.Out
+                    ),
+                    {
+                        Position = SECOND_POSITION
+                    }
+                ):Play()
+            end
+
+            -- เวลาหาย
             task.delay(duration, function()
                 if not frame or not frame.Parent then
                     return
@@ -107,7 +162,7 @@ do
                 local closeTween = TweenService:Create(
                     frame,
                     TweenInfo.new(
-                        0.35,
+                        0.4,
                         Enum.EasingStyle.Quint,
                         Enum.EasingDirection.In
                     ),
@@ -143,7 +198,15 @@ do
                     }
                 ):Play()
 
-                task.wait(0.4)
+                TweenService:Create(
+                    stroke,
+                    TweenInfo.new(0.3),
+                    {
+                        Transparency = 1
+                    }
+                ):Play()
+
+                task.wait(0.45)
 
                 if frame and frame.Parent then
                     frame:Destroy()
@@ -152,19 +215,23 @@ do
         end)
     end
 
-    -- Notification 1
+    -- แจ้งเตือนแรก
     CreateNotify(
         "Please wait for the script to load.",
         5,
-        0
+        0,
+        1
     )
 
-    -- Notification 2
-    CreateNotify(
-        "มึงก็รอสิไม่สัส กำลังโหลด",
-        6,
-        0.8
-    )
+    -- แจ้งเตือนสอง
+    task.delay(0.8, function()
+        CreateNotify(
+            "มึงก็รอสิไม่สัส กำลังโหลด",
+            6,
+            0,
+            2
+        )
+    end)
 
     -- Cleanup
     task.delay(7.5, function()
