@@ -1,4 +1,4 @@
---4
+--5
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
 
@@ -20,459 +20,266 @@ do
 
     --// Positions
     local FIRST_POSITION =
-        UDim2.new(0.5, 0, 0, 100)
+        UDim2.new(0.5, 0, 0, 32)
 
     local SECOND_POSITION =
         UDim2.new(0.5, 0, 0, 100)
 
-    local FIRST_MOVED_POSITION =
-        UDim2.new(0.5, 0, 0, 32)
+    --==================================================
+    -- Create Notification
+    --==================================================
 
-    --// Notifications
-    local firstNotification = nil
-    local secondNotification = nil
+    local function CreateNotify(message)
 
-    local function CreateNotify(message, duration, delayTime, notifyType)
+        local frame = Instance.new("Frame")
 
-        task.delay(delayTime or 0, function()
+        frame.Name = "Notification"
+        frame.Size = UDim2.new(0, 340, 0, 60)
 
-            if not notifyGui or not notifyGui.Parent then
-                return
-            end
+        frame.AnchorPoint =
+            Vector2.new(0.5, 0)
 
-            --------------------------------------------------
-            -- Frame
-            --------------------------------------------------
+        frame.BackgroundColor3 =
+            Color3.fromRGB(10, 10, 12)
 
-            local frame = Instance.new("Frame")
+        frame.BackgroundTransparency = 0.28
 
-            frame.Name = "Notification"
-            frame.Size = UDim2.new(0, 340, 0, 60)
+        frame.BorderSizePixel = 0
+        frame.ClipsDescendants = true
+        frame.ZIndex = 1000
+        frame.Parent = notifyGui
 
-            frame.Position = UDim2.new(
-                0.5,
-                0,
-                0,
-                155
-            )
+        -- Corner
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0, 14)
+        corner.Parent = frame
 
-            frame.AnchorPoint = Vector2.new(0.5, 0)
+        -- Border
+        local stroke = Instance.new("UIStroke")
+        stroke.Color = Color3.fromRGB(239, 68, 68)
+        stroke.Thickness = 1
+        stroke.Transparency = 0.2
+        stroke.Parent = frame
 
-            frame.BackgroundColor3 =
-                Color3.fromRGB(10, 10, 12)
+        -- Icon glow
+        local iconGlow = Instance.new("Frame")
 
-            -- เห็นเกมด้านหลังได้ แต่ไม่ใสจนเกินไป
-            frame.BackgroundTransparency = 0.28
+        iconGlow.Size =
+            UDim2.fromOffset(42, 42)
 
-            frame.BorderSizePixel = 0
-            frame.ClipsDescendants = true
-            frame.ZIndex = 1000
-            frame.Parent = notifyGui
+        iconGlow.Position =
+            UDim2.new(0, 8, 0.5, 0)
 
-            --------------------------------------------------
-            -- Corner
-            --------------------------------------------------
+        iconGlow.AnchorPoint =
+            Vector2.new(0, 0.5)
 
-            local corner = Instance.new("UICorner")
+        iconGlow.BackgroundColor3 =
+            Color3.fromRGB(239, 68, 68)
 
-            corner.CornerRadius =
-                UDim.new(0, 14)
+        iconGlow.BackgroundTransparency = 0.84
 
-            corner.Parent = frame
+        iconGlow.BorderSizePixel = 0
+        iconGlow.ZIndex = 1001
+        iconGlow.Parent = frame
 
-            --------------------------------------------------
-            -- Border
-            --------------------------------------------------
+        local glowCorner = Instance.new("UICorner")
+        glowCorner.CornerRadius = UDim.new(1, 0)
+        glowCorner.Parent = iconGlow
 
-            local stroke = Instance.new("UIStroke")
+        -- Reaper Icon
+        local icon = Instance.new("ImageLabel")
 
-            stroke.Color =
-                Color3.fromRGB(239, 68, 68)
+        icon.Size =
+            UDim2.fromOffset(36, 36)
 
-            stroke.Thickness = 1
-            stroke.Transparency = 0.2
-            stroke.Parent = frame
+        icon.Position =
+            UDim2.new(0, 11, 0.5, 0)
 
-            --------------------------------------------------
-            -- Icon Glow
-            --------------------------------------------------
+        icon.AnchorPoint =
+            Vector2.new(0, 0.5)
 
-            local iconGlow = Instance.new("Frame")
+        icon.BackgroundTransparency = 1
+        icon.Image = ReaperIcon
+        icon.ScaleType = Enum.ScaleType.Fit
+        icon.ZIndex = 1002
+        icon.Parent = frame
 
-            iconGlow.Size =
-                UDim2.fromOffset(42, 42)
+        -- Text
+        local text = Instance.new("TextLabel")
 
-            iconGlow.Position =
-                UDim2.new(0, 8, 0.5, 0)
+        text.Size =
+            UDim2.new(1, -64, 1, 0)
 
-            iconGlow.AnchorPoint =
-                Vector2.new(0, 0.5)
+        text.Position =
+            UDim2.new(0, 60, 0, 0)
 
-            iconGlow.BackgroundColor3 =
-                Color3.fromRGB(239, 68, 68)
+        text.BackgroundTransparency = 1
+        text.Text = message
 
-            iconGlow.BackgroundTransparency = 0.84
+        text.TextColor3 =
+            Color3.fromRGB(255, 255, 255)
 
-            iconGlow.BorderSizePixel = 0
+        text.TextSize = 13
+        text.Font = Enum.Font.GothamMedium
 
-            iconGlow.ZIndex = 1001
-            iconGlow.Parent = frame
+        text.TextXAlignment =
+            Enum.TextXAlignment.Left
 
-            local glowCorner = Instance.new("UICorner")
+        text.TextYAlignment =
+            Enum.TextYAlignment.Center
 
-            glowCorner.CornerRadius =
-                UDim.new(1, 0)
+        text.TextWrapped = true
+        text.ZIndex = 1002
+        text.Parent = frame
 
-            glowCorner.Parent = iconGlow
-
-            --------------------------------------------------
-            -- Reaper Icon
-            --------------------------------------------------
-
-            local icon = Instance.new("ImageLabel")
-
-            icon.Size =
-                UDim2.fromOffset(36, 36)
-
-            icon.Position =
-                UDim2.new(0, 11, 0.5, 0)
-
-            icon.AnchorPoint =
-                Vector2.new(0, 0.5)
-
-            icon.BackgroundTransparency = 1
-
-            icon.Image = ReaperIcon
-
-            icon.ScaleType =
-                Enum.ScaleType.Fit
-
-            icon.ZIndex = 1002
-            icon.Parent = frame
-
-            --------------------------------------------------
-            -- Text
-            --------------------------------------------------
-
-            local text = Instance.new("TextLabel")
-
-            text.Size =
-                UDim2.new(1, -64, 1, 0)
-
-            text.Position =
-                UDim2.new(0, 60, 0, 0)
-
-            text.BackgroundTransparency = 1
-
-            text.Text = message
-
-            text.TextColor3 =
-                Color3.fromRGB(255, 255, 255)
-
-            text.TextSize = 13
-
-            text.Font =
-                Enum.Font.GothamMedium
-
-            text.TextXAlignment =
-                Enum.TextXAlignment.Left
-
-            text.TextYAlignment =
-                Enum.TextYAlignment.Center
-
-            text.TextWrapped = true
-
-            text.ZIndex = 1002
-            text.Parent = frame
-
-            --------------------------------------------------
-            -- Register notification
-            --------------------------------------------------
-
-            if notifyType == 1 then
-
-                firstNotification = frame
-
-            elseif notifyType == 2 then
-
-                secondNotification = frame
-
-            end
-
-            --------------------------------------------------
-            -- Opening animation
-            --------------------------------------------------
-
-            frame.Size =
-                UDim2.new(0, 300, 0, 56)
-
-            TweenService:Create(
-
-                frame,
-
-                TweenInfo.new(
-                    0.55,
-                    Enum.EasingStyle.Quint,
-                    Enum.EasingDirection.Out
-                ),
-
-                {
-                    Size =
-                        UDim2.new(0, 340, 0, 60)
-                }
-
-            ):Play()
-
-            --------------------------------------------------
-            -- Second notification
-            --------------------------------------------------
-
-            if notifyType == 2 then
-
-                -- ดันอันแรกขึ้น
-                if firstNotification
-                    and firstNotification.Parent then
-
-                    TweenService:Create(
-
-                        firstNotification,
-
-                        TweenInfo.new(
-                            0.65,
-                            Enum.EasingStyle.Quint,
-                            Enum.EasingDirection.Out
-                        ),
-
-                        {
-                            Position =
-                                FIRST_MOVED_POSITION
-                        }
-
-                    ):Play()
-
-                end
-
-                -- อันสองเริ่มจากด้านล่าง
-                frame.Position =
-                    UDim2.new(
-                        0.5,
-                        0,
-                        0,
-                        165
-                    )
-
-                -- แล้วเลื่อนขึ้นมาตำแหน่งเดิม
-                TweenService:Create(
-
-                    frame,
-
-                    TweenInfo.new(
-                        0.7,
-                        Enum.EasingStyle.Quint,
-                        Enum.EasingDirection.Out
-                    ),
-
-                    {
-                        Position =
-                            SECOND_POSITION
-                    }
-
-                ):Play()
-
-            end
-
-            --------------------------------------------------
-            -- Remove notification
-            --------------------------------------------------
-
-            task.delay(duration, function()
-
-                if not frame
-                    or not frame.Parent then
-
-                    return
-
-                end
-
-                --------------------------------------------------
-                -- Closing animation
-                --------------------------------------------------
-
-                local closeTween =
-                    TweenService:Create(
-
-                        frame,
-
-                        TweenInfo.new(
-                            0.5,
-                            Enum.EasingStyle.Quint,
-                            Enum.EasingDirection.In
-                        ),
-
-                        {
-                            Position =
-                                UDim2.new(
-                                    0.5,
-                                    0,
-                                    0,
-                                    -20
-                                ),
-
-                            BackgroundTransparency = 1
-                        }
-
-                    )
-
-                closeTween:Play()
-
-                --------------------------------------------------
-                -- Fade text
-                --------------------------------------------------
-
-                TweenService:Create(
-
-                    text,
-
-                    TweenInfo.new(0.4),
-
-                    {
-                        TextTransparency = 1
-                    }
-
-                ):Play()
-
-                --------------------------------------------------
-                -- Fade icon
-                --------------------------------------------------
-
-                TweenService:Create(
-
-                    icon,
-
-                    TweenInfo.new(0.4),
-
-                    {
-                        ImageTransparency = 1
-                    }
-
-                ):Play()
-
-                --------------------------------------------------
-                -- Fade glow
-                --------------------------------------------------
-
-                TweenService:Create(
-
-                    iconGlow,
-
-                    TweenInfo.new(0.4),
-
-                    {
-                        BackgroundTransparency = 1
-                    }
-
-                ):Play()
-
-                --------------------------------------------------
-                -- Fade border
-                --------------------------------------------------
-
-                TweenService:Create(
-
-                    stroke,
-
-                    TweenInfo.new(0.4),
-
-                    {
-                        Transparency = 1
-                    }
-
-                ):Play()
-
-                task.wait(0.55)
-
-                if frame and frame.Parent then
-                    frame:Destroy()
-                end
-
-                --------------------------------------------------
-                -- First notification disappeared
-                --------------------------------------------------
-
-                if notifyType == 1 then
-
-                    firstNotification = nil
-
-                    -- ให้อันสองเลื่อนขึ้นมาแทน
-                    if secondNotification
-                        and secondNotification.Parent then
-
-                        TweenService:Create(
-
-                            secondNotification,
-
-                            TweenInfo.new(
-                                0.7,
-                                Enum.EasingStyle.Quint,
-                                Enum.EasingDirection.Out
-                            ),
-
-                            {
-                                Position =
-                                    FIRST_MOVED_POSITION
-                            }
-
-                        ):Play()
-
-                    end
-
-                elseif notifyType == 2 then
-
-                    secondNotification = nil
-
-                end
-
-            end)
-
-        end)
-
+        return frame, text, icon, iconGlow, stroke
     end
 
-    ----------------------------------------------------------
-    -- Notification 1
-    ----------------------------------------------------------
+    --==================================================
+    -- Fade Out
+    --==================================================
 
-    CreateNotify(
-        "Please wait for the script to load.",
-        5,
-        0,
-        1
-    )
+    local function RemoveNotify(frame, text, icon, iconGlow, stroke)
 
-    ----------------------------------------------------------
-    -- Notification 2
-    ----------------------------------------------------------
-
-    CreateNotify(
-        "มึงก็รอสิไม่สัส กำลังโหลด",
-        6,
-        0.8,
-        2
-    )
-
-    ----------------------------------------------------------
-    -- Cleanup
-    ----------------------------------------------------------
-
-    task.delay(7.8, function()
-
-        if notifyGui
-            and notifyGui.Parent then
-
-            notifyGui:Destroy()
-
+        if not frame or not frame.Parent then
+            return
         end
 
-    end)
+        TweenService:Create(
+            frame,
+            TweenInfo.new(
+                0.45,
+                Enum.EasingStyle.Quint,
+                Enum.EasingDirection.In
+            ),
+            {
+                Position =
+                    UDim2.new(0.5, 0, 0, -40),
 
+                BackgroundTransparency = 1
+            }
+        ):Play()
+
+        TweenService:Create(
+            text,
+            TweenInfo.new(0.35),
+            {
+                TextTransparency = 1
+            }
+        ):Play()
+
+        TweenService:Create(
+            icon,
+            TweenInfo.new(0.35),
+            {
+                ImageTransparency = 1
+            }
+        ):Play()
+
+        TweenService:Create(
+            iconGlow,
+            TweenInfo.new(0.35),
+            {
+                BackgroundTransparency = 1
+            }
+        ):Play()
+
+        TweenService:Create(
+            stroke,
+            TweenInfo.new(0.35),
+            {
+                Transparency = 1
+            }
+        ):Play()
+
+        task.wait(0.5)
+
+        if frame and frame.Parent then
+            frame:Destroy()
+        end
+    end
+
+    --==================================================
+    -- NOTIFICATION 1
+    --==================================================
+
+    local notify1, text1, icon1, glow1, stroke1 =
+        CreateNotify(
+            "Please wait for the script to load."
+        )
+
+    -- เริ่มที่ตำแหน่งของอันที่ 2
+    notify1.Position =
+        UDim2.new(0.5, 0, 0, 100)
+
+    -- ขยับขึ้นมาตำแหน่งของตัวเอง
+    TweenService:Create(
+        notify1,
+        TweenInfo.new(
+            0.65,
+            Enum.EasingStyle.Quint,
+            Enum.EasingDirection.Out
+        ),
+        {
+            Position = FIRST_POSITION
+        }
+    ):Play()
+
+    --==================================================
+    -- รอ 1 วินาที
+    --==================================================
+
+    task.wait(1)
+
+    --==================================================
+    -- NOTIFICATION 2
+    --==================================================
+
+    local notify2, text2, icon2, glow2, stroke2 =
+        CreateNotify(
+            "มึงก็รอสิไอสัส กำลังโหลด"
+        )
+
+    -- อันสองสร้างตรงตำแหน่งของมัน
+    notify2.Position = SECOND_POSITION
+
+    --==================================================
+    -- รอให้อันแรกหมดเวลา
+    --==================================================
+
+    task.wait(4)
+
+    -- อันแรกหายก่อน
+    RemoveNotify(
+        notify1,
+        text1,
+        icon1,
+        glow1,
+        stroke1
+    )
+
+    --==================================================
+    -- รออีก 1 วินาที
+    --==================================================
+
+    task.wait(1)
+
+    -- อันสองค่อยหาย
+    RemoveNotify(
+        notify2,
+        text2,
+        icon2,
+        glow2,
+        stroke2
+    )
+
+    --==================================================
+    -- Cleanup
+    --==================================================
+
+    task.wait(0.2)
+
+    if notifyGui and notifyGui.Parent then
+        notifyGui:Destroy()
+    end
 end
